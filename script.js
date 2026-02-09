@@ -2,14 +2,15 @@ let root = document.getElementById("root");
 const correctUsername = "test";
 const correctPassword = "1234";
 
+// Loginsidan som en funktion så jag kan kalla på den igen
 function loginPage() {
-let welcome = document.createElement("h1");
-welcome.innerText = "Välkommen. Logga in för att fortsätta";
-welcome.classList.add("welcome");
-root.appendChild(welcome);
+const loginText = document.createElement("h1");
+loginText.innerText = "Logga in";
+loginText.classList.add("loginText");
+root.appendChild(loginText);
 
 //  Användarnamn textinput
-let nameLabel = document.createElement("label");
+const nameLabel = document.createElement("label");
 nameLabel.classList.add("textInputLabels");
 nameLabel.innerText = "Användarnamn: "
 nameLabel.setAttribute("for", "username");
@@ -17,13 +18,13 @@ nameLabel.setAttribute("for", "username");
 let inputName = document.createElement("input");
 inputName.id = "username";
 inputName.type = "text";
-inputName.placeholder = "Ditt användarnamn här";
+inputName.placeholder = "Ditt användarnamn";
 
 root.appendChild(nameLabel);
 root.appendChild(inputName);
 
 //  Lösenord input
-let passwordLabel = document.createElement("label");
+const passwordLabel = document.createElement("label");
 passwordLabel.classList.add("textInputLabels");
 passwordLabel.innerText = "Lösenord: ";
 passwordLabel.setAttribute("for", "passwordInput");
@@ -31,13 +32,12 @@ passwordLabel.setAttribute("for", "passwordInput");
 let passwordInput = document.createElement("input");
 passwordInput.id = "passwordInput";
 passwordInput.type = "password";
-passwordInput.placeholder = "Ditt lösenord här"
+passwordInput.placeholder = "Ditt lösenord"
 
 root.appendChild(passwordLabel);
 root.appendChild(passwordInput);
 
-// Loginknapp
-let loginBtn = document.createElement("button");
+const loginBtn = document.createElement("button");
 loginBtn.type = "button";
 loginBtn.classList.add("loginBtn");
 loginBtn.innerText = "Logga in";
@@ -58,13 +58,14 @@ if (typedUsername === correctUsername && typedPassword === correctPassword) {
 });
 }
 
+// "Sida" om användaren skrivit fel inloggningsuppgifter
 function wrongInputPage() {
     root.innerHTML = "";
-    let message = document.createElement("h1");
+    const message = document.createElement("h1");
     message.innerText = "Något gick fel! Fel användarnamn eller lösenord.";
     root.appendChild(message);
 
-   let returnBtn = document.createElement("button");
+   const returnBtn = document.createElement("button");
    returnBtn.type = "button";
    returnBtn.innerText = "Tillbaka";
    root.appendChild(returnBtn);
@@ -76,6 +77,26 @@ function wrongInputPage() {
 
 loginPage();
 
+// "sida" om användaren loggat in med test 1234
 function welcomePage() {
     root.innerHTML = "";
+    const welcomeMessage = document.createElement("h1");
+    welcomeMessage.innerText = "Välkommen, " + correctUsername + "!";
+    root.appendChild(welcomeMessage);
+
+    const logOutBtn = document.createElement("button");
+    logOutBtn.type = "button";
+    logOutBtn.innerText = "Logga ut";
+    root.appendChild(logOutBtn);
+    logOutBtn.addEventListener("click", function(){
+    root.innerHTML = "";
+    loginPage();
+   })
 }
+
+
+//  lägg till styling
+// ändra så att användaren kan skapa ett eget inlogg
+// flera ska kunna skapa
+// spara i localstore och töm när användaren loggar ut
+// const och let?
