@@ -62,12 +62,14 @@ if (typedUsername === correctUsername && typedPassword === correctPassword) {
 function wrongInputPage() {
     root.innerHTML = "";
     const message = document.createElement("h1");
-    message.innerText = "Något gick fel! Fel användarnamn eller lösenord.";
+    message.classList.add("message");
+    message.innerText = "Något gick fel! Inkorrekt användarnamn eller lösenord.";
     root.appendChild(message);
 
    const returnBtn = document.createElement("button");
    returnBtn.type = "button";
    returnBtn.innerText = "Tillbaka";
+   returnBtn.classList.add("returnBtn")
    root.appendChild(returnBtn);
    returnBtn.addEventListener("click", function(){
     root.innerHTML = "";
@@ -100,3 +102,4 @@ function welcomePage() {
 // flera ska kunna skapa
 // spara i localstore och töm när användaren loggar ut
 // const och let?
+// responsiv
