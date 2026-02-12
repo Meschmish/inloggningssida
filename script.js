@@ -1,28 +1,23 @@
 let root = document.getElementById("root");
-const correctUsername = "test";
-const correctPassword = "1234";
 
-// Loginsidan som en funktion så jag kan kalla på den igen
 function loginPage() {
 const loginText = document.createElement("h1");
 loginText.innerText = "Logga in";
 loginText.classList.add("loginText");
 root.appendChild(loginText);
 
-//  Användarnamn textinput
 const nameLabel = document.createElement("label");
 nameLabel.classList.add("textInputLabels");
 nameLabel.innerText = "Användarnamn: "
-nameLabel.setAttribute("for", "username");
+nameLabel.setAttribute("for", "nameInput");
 root.appendChild(nameLabel);
 
-let inputName = document.createElement("input");
-inputName.id = "username";
-inputName.type = "text";
-inputName.placeholder = "Ditt användarnamn";
-root.appendChild(inputName);
+let nameInput = document.createElement("input");
+nameInput.id = "username";
+nameInput.type = "text";
+nameInput.placeholder = "Ditt användarnamn";
+root.appendChild(nameInput);
 
-//  Lösenord input
 const passwordLabel = document.createElement("label");
 passwordLabel.classList.add("textInputLabels");
 passwordLabel.innerText = "Lösenord: ";
@@ -51,17 +46,21 @@ loginBtn.innerText = "Logga in";
 root.appendChild(loginBtn);
 
 loginBtn.addEventListener("click", function() {
-    let typedUsername = inputName.value;
-    let typedPassword = passwordInput.value;
+        let newInputName = nameInput.value;
+        let newInputPassword = passwordInput.value;
 
-if (typedUsername === correctUsername && typedPassword === correctPassword) {
-    welcomePage(typedUsername);
-} else {
-        wrongInputPage()
-}
-});
-}
+        let users = JSON.parse(localStorage.getItem("user")) || [];
 
+        for (i = 0; i < users.length; i++) {
+             if (users[i].username === newInputName && users[i].password === newInputPassword) {
+            welcomePage(newInputName);
+                return;
+            }
+        }
+
+        wrongInputPage();
+    });
+}
 
 // "Sida" om användaren skrivit fel inloggningsuppgifter
 function wrongInputPage() {
@@ -84,18 +83,33 @@ function wrongInputPage() {
 
 loginPage();
 
-// "sida" om användaren loggat in med test 1234
-function welcomePage() {
+function welcomePage(username) {
     root.innerHTML = "";
     const welcomeMessage = document.createElement("h1");
-    welcomeMessage.innerText = "Välkommen, " + correctUsername + "!";
+    welcomeMessage.innerText = "Välkommen, " + username + "!";  
+    welcomeMessage.classList.add("welcomeMessage");  
     root.appendChild(welcomeMessage);
+
 
     const logOutBtn = document.createElement("button");
     logOutBtn.type = "button";
     logOutBtn.innerText = "Logga ut";
+    logOutBtn.classList.add("logOutBtn");
     root.appendChild(logOutBtn);
+
+    const logOutText = document.createElement("p");
+    logOutText.innerText = "OBS! Raderar ditt konto.";
+    logOutText.classList.add("logOutText");
+    root.appendChild(logOutText);
+
     logOutBtn.addEventListener("click", function(){
+
+        // Går igenom listan och behåll alla i den nya listan utom den person som har samma namn som den inloggade.
+        let users = JSON.parse(localStorage.getItem("user")) || [];
+        let updatedListofUsers = users.filter(user => user.username !== username );
+        // Tar bort den gamla listan och ersätter med den nya
+        localStorage.setItem("user", JSON.stringify(updatedListofUsers));
+        alert("Ditt konto är nu raderat!");
     root.innerHTML = "";
     loginPage();
    })
@@ -110,25 +124,35 @@ function createAccountPage() {
 
     const createUsernameLabel = document.createElement("label");
     createUsernameLabel.classList.add("createLabels");
-    createUsernameLabel.innerText = "Välj användarnamn (max 10 karaktärer)";
-    createUsernameLabel.setAttribute("for", "createUserNameInput");
+    createUsernameLabel.innerText = "Välj användarnamn";
+    createUsernameLabel.setAttribute("for", "createUsername");
     root.appendChild(createUsernameLabel);
 
-    let createUsernameInput = document.createElement("input");
-    createUsernameInput.type ="text";
-    createUsernameInput.id ="createUsernameInput";
-    root.appendChild(createUsernameInput);
+    let createUsername = document.createElement("input");
+    createUsername.type ="text";
+    createUsername.id ="createUsername";
+    root.appendChild(createUsername);
 
     const createPasswordLabel = document.createElement("label");
     createPasswordLabel.classList.add("createLabels");
-    createPasswordLabel.innerText = "Välj ett lösenord. (minst 6 karaktärer)";
-    createPasswordLabel.setAttribute("for", "createUSernamePassword");
+    createPasswordLabel.innerText = "Välj ett lösenord.";
+    createPasswordLabel.setAttribute("for", "createPassword");
     root.appendChild(createPasswordLabel);
 
-    let createUsernamePassword = document.createElement("input");
-    createUsernamePassword.type = "password";
-    createUsernamePassword.id = "createPasswordInput";
-    root.appendChild(createUsernamePassword);
+    let createPassword = document.createElement("input");
+    createPassword.type = "password";
+    createPassword.id = "createPassword";
+    root.appendChild(createPassword);
+
+    const cAreturnLink = document.createElement("a");
+    cAreturnLink.href = "#";
+    cAreturnLink.classList.add("cAreturnLink");
+    cAreturnLink.innerText ="Tillbaka";
+    root.appendChild(cAreturnLink);
+    cAreturnLink.addEventListener("click", function() {
+        root.innerHTML = "";
+        loginPage();
+    })
 
     const createAccountBtn = document.createElement("button");
     createAccountBtn.type = "button";
@@ -136,16 +160,25 @@ function createAccountPage() {
     createAccountBtn.innerText = "Skapa konto";
     root.appendChild(createAccountBtn);
     createAccountBtn.addEventListener("click", function() {
-        alert("Konto skapat! Testa att logga in!")
-        root.innerHTML = ""
+        const newUsername = createUsername.value;
+        const newPassword = createPassword.value;
+
+        // Förhindrar att användare lämnar fälten tomma
+        if (newUsername === "" || newPassword === "") {
+             alert("Du måste fylla i både användarnamn och lösenord!");
+        return;
+        }
+
+        let users = JSON.parse(localStorage.getItem("user")) || [];
+        let newUser = {
+            username: newUsername,
+            password: newPassword
+        };
+        users.push(newUser);
+        localStorage.setItem("user", JSON.stringify(users));
+
+        alert("Konto skapat! Testa att logga in!");
+        root.innerHTML = "";
         loginPage();
-    })
+    });
 }
-
-
-//  lägg till styling
-// ändra så att användaren kan skapa    ett eget inlogg
-// flera ska kunna skapa - array
-// spara i localstore och töm när användaren loggar ut
-// 
-// responsiv
