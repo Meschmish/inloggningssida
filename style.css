@@ -1,35 +1,41 @@
 * {
     margin: 0;
     padding: 0;
+    box-sizing: border-box;
 }
 
 
 body {
     background-image: url(/bgImg.jpg);
+    background-repeat: no-repeat;
     background-size: cover;
+    background-attachment: fixed;
+    background-position: center;
+    min-height: 100vh;
     display: flex;
     justify-content: center;
+    align-items: flex-start;
     font-family: Verdana, Geneva, Tahoma, sans-serif;
 }
 
 #root {
     max-width: 400px;
-    width: 90%;
-    height: auto;
+    width: 95%;
     min-height: 260px;
     margin: 100px auto;
-    padding: 20px;
+    padding: 30px 20px;
     background: linear-gradient(rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.8));
     display: flex;
     flex-direction: column;
     align-items: center;
     border-radius: 20px;
-    caret-color: transparent;
+    caret-color: auto;
 }
 
 .loginText {
     color: rgb(213, 213, 213);
     text-align: center;
+    margin-bottom: 10px;
 }
 
 .textInputLabels {
@@ -41,7 +47,7 @@ body {
 #username, #passwordInput {
     width: 65%;
     padding: 12px;
-    margin-bottom: 1;
+    margin-bottom: 10px;
     box-sizing: border-box;
     border-radius: 8px;
     background-color: rgb(182, 215, 238);
@@ -100,7 +106,7 @@ body {
 
 .headerCreateAccount {
     color: rgb(213, 213, 213);
-    font-size: 20px;
+    font-size:30px;
     margin-bottom: 22px;
 }
 
@@ -136,8 +142,33 @@ body {
     margin-bottom: 150px;
 }
 
-
 .logOutText {
     color: #ff4d4d;
 margin-top: 2px;
+}
+
+@media (max-width: 768px) {
+    #root {
+        margin: 50px auto;
+    }
+}
+
+@media (max-width: 480px) {
+    #root {
+        margin: 50px auto;
+        padding: 20px 10px;
+    }
+
+    #username, #passwordInput, #createUsername, #createPassword {
+        width: 90%;
+    }
+
+    .textInputLabels, .createLabels {
+        margin-left: 5%;
+    }
+
+    .loginBtn, .returnBtn, .logOutBtn, .createAccountBtn {
+        width: 100%;
+        max-width: 250px;
+    }
 }

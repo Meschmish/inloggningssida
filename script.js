@@ -9,7 +9,7 @@ root.appendChild(loginText);
 const nameLabel = document.createElement("label");
 nameLabel.classList.add("textInputLabels");
 nameLabel.innerText = "Användarnamn: "
-nameLabel.setAttribute("for", "nameInput");
+nameLabel.setAttribute("for", "username");
 root.appendChild(nameLabel);
 
 let nameInput = document.createElement("input");
@@ -124,7 +124,7 @@ function createAccountPage() {
 
     const createUsernameLabel = document.createElement("label");
     createUsernameLabel.classList.add("createLabels");
-    createUsernameLabel.innerText = "Välj användarnamn";
+    createUsernameLabel.innerText = "Välj användarnamn:";
     createUsernameLabel.setAttribute("for", "createUsername");
     root.appendChild(createUsernameLabel);
 
@@ -135,7 +135,7 @@ function createAccountPage() {
 
     const createPasswordLabel = document.createElement("label");
     createPasswordLabel.classList.add("createLabels");
-    createPasswordLabel.innerText = "Välj ett lösenord.";
+    createPasswordLabel.innerText = "Välj ett lösenord:";
     createPasswordLabel.setAttribute("for", "createPassword");
     root.appendChild(createPasswordLabel);
 
